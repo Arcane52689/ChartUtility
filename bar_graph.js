@@ -11,6 +11,7 @@
     this.width = options.width || Math.floor(this.canvas.width * .8);
     this.verticalSpaces = options.verticalSpaces || this.setSpacing()
     this.horizontalLines = options.horizontalLines || false;
+    this.horizontalSpacing = options.horizontalSpacing || this.estimateHorizontalSpacing();
   }
 
   BarGraph.prototype.setup = function(canvasId) {
@@ -41,6 +42,14 @@
     return Math.max(height, max);
   }
 
+  Bargraph.prototype.estimateHorizontalSpacing = function() {
+    var increment = Math.floor(this.width/this.objs.length);
+    var spacing = [this.origin[0]]
+    while (spacing[spacing.length  -1] < this.width) {
+      spacing.push(spacing[spacing.length - 1] + increment );
+    }
+    return spacing;
+  }
 
   BarGraph.prototype.calculateOrigin = function() {
     var x = Math.floor(this.canvas.width * .1);
@@ -64,6 +73,11 @@
   }
 
   BarGraph.prototype.markAxes = function() {
+    this.markVerticalAxes();
+    this.markHorizontalAxes();
+  }
+
+  BarGraph.prototype.markVerticalAxes = function() {
 
     if (this.horizontalLines) {
       end[0] = end[0] + this.width;

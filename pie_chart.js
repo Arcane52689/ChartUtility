@@ -13,7 +13,7 @@
     if (options.total) {
       this.budgeted = true;
     }
-
+    this.default = options.default
     this.calculateOrigin();
   };
 
@@ -51,8 +51,12 @@
   }
 
   PieChart.prototype.drawCirlce = function() {
-
+    this.ctx.beginPath();
     this.drawArc(0, Math.PI * 2, '#fff')
+    if (this.budgeted) {
+      this.ctx.fillStyle = this.default;
+      this.ctx.fill();    
+    }
   }
 
   PieChart.prototype.drawArcs = function() {
